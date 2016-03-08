@@ -166,3 +166,12 @@ func IsObjectId(id string) (ok bool) {
 	bson.ObjectIdHex(id)
 	return
 }
+
+const (
+	regular_mobile = "^(13[0-9]|14[57]|15[0-35-9]|18[07-9])\\d{8}$"
+)
+
+func IsMobile(mobileNum string) bool {
+	reg := regexp.MustCompile(regular_mobile)
+	return reg.MatchString(mobileNum)
+}

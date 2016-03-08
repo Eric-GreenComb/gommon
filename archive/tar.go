@@ -3,7 +3,6 @@ package archive
 import (
 	"archive/tar"
 	"compress/gzip"
-	"fmt"
 	"io"
 	"os"
 	"path"
@@ -188,43 +187,4 @@ func UnTarGz(srcFilePath string, destDirPath string) {
 		}
 	}
 	//    fmt.Println("Well done!")
-}
-
-// main functions shows how to TarGz a directory/file and
-// UnTarGz a file
-// Gzip and tar from source directory or file to destination file
-// you need check file exist before you call this function
-
-func main() {
-	/*
-	   os.Mkdir("/home/ty4z2008/tar", 0777)
-	   w, err := CopyFile("/home/ty4z2008/tar/1.pdf", "/home/ty4z2008/src/1.pdf")
-	   //targetfile,sourcefile
-	   if err != nil {
-	       fmt.Println(err.Error())
-	   }
-	   fmt.Println(w)
-
-	   TarGz("/home/ty4z2008/tar/1.pdf", "/home/ty4z2008/test.tar.gz") //压缩
-	   //UnTarGz("/home/ty4z2008/1.tar.gz", "/home/ty4z2008")     //解压
-	   os.RemoveAll("/home/ty4z2008/tar")
-	*/
-	//    TaZip("/Users/life/Desktop/j", "/Users/life/Desktop/aaa.tar.gz")
-	Zip("/Users/life/Desktop/j", "/Users/life/Desktop/aaa.zip")
-	fmt.Println("ok")
-}
-
-// Copyfile
-func CopyFile(dstName, srcName string) (written int64, err error) {
-	src, err := os.Open(srcName)
-	if err != nil {
-		return
-	}
-	defer src.Close()
-	dst, err := os.OpenFile(dstName, os.O_WRONLY|os.O_CREATE, 0644)
-	if err != nil {
-		return
-	}
-	defer dst.Close()
-	return io.Copy(dst, src)
 }

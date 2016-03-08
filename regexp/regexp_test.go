@@ -24,3 +24,13 @@ func TestIsEmail(t *testing.T) {
 		t.Errorf("IsEmail %b", _is)
 	}
 }
+
+func TestIsMobile(t *testing.T) {
+
+	_is := IsMobile("13810167616")
+
+	if !_is {
+		t.Errorf("Isn't Mobile")
+	}
+
+}
