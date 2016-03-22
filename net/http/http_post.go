@@ -4,15 +4,11 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 )
-
-// var HttpClient *http.Client
-
-// func init() {
-// 	HttpClient = http.DefaultClient
-// }
 
 func PostRawJson(finalURL string, req []byte, response interface{}) (err error) {
 	httpResp, err := http.DefaultClient.Post(finalURL, "application/json; charset=utf-8", bytes.NewReader(req))
@@ -67,4 +63,35 @@ func PostJsonString(finalURL, _json string) (response string, err error) {
 	}
 
 	return string(_responseBody), nil
+}
+
+func PostForm(url string, data url.Values) (response string, err error) {
+	resp, err := http.PostForm(url, data)
+
+	if err != nil {
+		return "", err
+	}
+
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+
+	return string(body), nil
+}
+
+func Post(url string, bodyType string, body io.Reader) (response string, err error) {
+	resp, err := http.Post(url, bodyType, body)
+	if err != nil {
+		return "", err
+	}
+
+	defer resp.Body.Close()
+	_body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+
+	return string(_body), nil
 }
