@@ -2,11 +2,10 @@
 package sms
 
 import (
-	"crypto/tls"
-	"log"
-	"net"
 	"net/url"
 	"strings"
+
+	banerwaihttp "github.com/banerwai/gommon/net/http"
 )
 
 type SmsApiBean struct {
@@ -33,7 +32,7 @@ func (self *SmsApiBean) Server(name, pwd, content, mobile, sign, extno string) b
 
 //sms_api_url = "http://web.cr6868.com/asmx/smsservice.aspx"
 func (self *SmsApiBean) SendSms(sms_api_url string) (bool, error) {
-	_response, _err := self.PostSms(sms_api_url, form)
+	_response, _err := self.PostSms(sms_api_url)
 
 	if _err != nil {
 		return false, _err
@@ -43,12 +42,12 @@ func (self *SmsApiBean) SendSms(sms_api_url string) (bool, error) {
 	if len(_s) != 6 {
 		return false, nil
 	}
-	code = _s[0]
-	sendid = _s[1]
-	invalidcount = _s[2]
-	successcount = _s[3]
-	blackcount = _s[4]
-	msg = _s[5]
+	code := _s[0]
+	// sendid := _s[1]
+	// invalidcount := _s[2]
+	// successcount := _s[3]
+	// blackcount := _s[4]
+	// msg := _s[5]
 
 	if code == "0" {
 		return true, nil
@@ -57,7 +56,7 @@ func (self *SmsApiBean) SendSms(sms_api_url string) (bool, error) {
 	return false, nil
 }
 
-func (self *SmsApiBean) PostSms() (string, error) {
+func (self *SmsApiBean) PostSms(sms_api_url string) (string, error) {
 	form := make(url.Values)
 	form.Set("name", self.Name)
 	form.Set("pwd", self.Pwd)
@@ -66,7 +65,7 @@ func (self *SmsApiBean) PostSms() (string, error) {
 	form.Set("sign", self.Sign)
 	form.Set("type", "pt")
 	form.Set("extno", self.Extno)
-	_response, _err := PostForm(urlStr, form)
+	_response, _err := banerwaihttp.PostForm(sms_api_url, form)
 
 	if _err != nil {
 		return "", _err
