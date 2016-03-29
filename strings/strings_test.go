@@ -27,3 +27,15 @@ func TestParseIDCard(t *testing.T) {
 		t.Errorf("ParseIDCard error")
 	}
 }
+
+func TestConstructString(t *testing.T) {
+	s := ConstructString("1", "2")
+	if s != "12" {
+		t.Errorf("ConstructString error")
+	}
+
+	q := ConstructString("http://www.xxx.com/s?", "q=2", "&pt=0")
+	if q != "http://www.xxx.com/s?q=2&pt=0" {
+		t.Errorf("ConstructString error")
+	}
+}

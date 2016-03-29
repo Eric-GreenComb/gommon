@@ -1,6 +1,8 @@
 package strings
 
-import ()
+import (
+	"bytes"
+)
 
 // 以byte来截取
 func SubstringByte(str string, start int) string {
@@ -51,4 +53,12 @@ func substr(str string, start, length int, isRune bool) string {
 		return string(rs[start:end])
 	}
 	return string(rs2[start:end])
+}
+
+func ConstructString(strings ...string) string {
+	var buf bytes.Buffer
+	for _, str := range strings {
+		buf.WriteString(str)
+	}
+	return buf.String()
 }
