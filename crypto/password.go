@@ -92,6 +92,9 @@ func Krand(size int, kind int) string {
 
 // 返回输入参数以下的随机数字，如输入参数为5，随机返回0,1,2,3,4
 func GetRandomItNum(num int) int {
+	if num == 0 {
+		return 0
+	}
 	r := math_rand.New(math_rand.NewSource(time.Now().UnixNano()))
 	return r.Intn(num)
 }
