@@ -108,6 +108,13 @@ func (e *EtcdReigistryClient) Register() error {
 		})
 		return err
 	}
+	refreshTTLFunc := func() error {
+		_, err := e.EtcdKApi.Set(context.Background(), e.etcdKey, "", &client.SetOptions{
+			TTL:     TTL,
+			Refresh: true,
+		})
+		return err
+	}
 	err := insertFunc()
 	if err != nil {
 		return err
@@ -118,7 +125,7 @@ func (e *EtcdReigistryClient) Register() error {
 		for {
 			select {
 			case <-e.keepAliveTicker.C:
-				insertFunc()
+				refreshTTLFunc()
 				log.Printf("Keep alive routine for %s", e.ServiceName)
 			case <-ctx.Done():
 				log.Printf("Shutdown keep alive routine for %s", e.ServiceName)
