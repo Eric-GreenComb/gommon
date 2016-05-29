@@ -15,7 +15,10 @@ func Get(key string) (*client.Response, error) {
 
 func GetValue(key string) (string, error) {
 	resp, err := KeysAPI.Get(context.Background(), key, nil)
-	return resp.Node.Value, err
+	if err != nil {
+		return "", err
+	}
+	return resp.Node.Value, nil
 }
 
 func GetString(key string) string {
