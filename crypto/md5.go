@@ -17,3 +17,15 @@ func CompareMd5(source, md5 string) bool {
 	}
 	return false
 }
+
+func DoubleMd5(source string) string {
+	return Md5(Md5(source))
+}
+
+func CompareDoubleMd5(source, md5 string) bool {
+	_temp := Md5(source)
+	if Md5(_temp) == md5 {
+		return true
+	}
+	return false
+}
