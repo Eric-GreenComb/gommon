@@ -2,6 +2,7 @@ package alidayu
 
 import (
 	"crypto/md5"
+	"flag"
 	"fmt"
 	"io"
 	"io/ioutil"
