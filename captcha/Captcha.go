@@ -126,6 +126,7 @@ var font = [][]byte{
 	},
 }
 
+// Image image struct
 type Image struct {
 	*image.NRGBA
 	color   *color.NRGBA
@@ -138,6 +139,7 @@ func init() {
 	rand.Seed(int64(time.Second))
 }
 
+// NewImage create a new image
 func NewImage(digits []byte, width, height int) *Image {
 	img := new(Image)
 	r := image.Rect(img.width, img.height, stdWidth, stdHeight)
@@ -172,6 +174,7 @@ func NewImage(digits []byte, width, height int) *Image {
 	return img
 }
 
+// WriteTo write into image
 func (img *Image) WriteTo(w io.Writer) (int64, error) {
 	return 0, png.Encode(w, img)
 }
@@ -339,14 +342,14 @@ func rnd(from, to int) int {
 }
 
 const (
-	// Standard length of uniuri string to achive ~95 bits of entropy.
+	// StdLen Standard length of uniuri string to achive ~95 bits of entropy.
 	StdLen = 16
-	// Length of uniurl string to achive ~119 bits of entropy, closest
+	// UUIDLen Length of uniurl string to achive ~119 bits of entropy, closest
 	// to what can be losslessly converted to UUIDv4 (122 bits).
 	UUIDLen = 20
 )
 
-// Standard characters allowed in uniuri string.
+// StdChars Standard characters allowed in uniuri string.
 var StdChars = []byte("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")
 
 // New returns a new random string of the standard length, consisting of
@@ -388,6 +391,7 @@ func NewLenChars(length int, chars []byte) string {
 	panic("unreachable")
 }
 
+// Fetch gen a captcha image
 func Fetch() (*Image, string) {
 	d := make([]byte, 4)
 	s := NewLen(4)

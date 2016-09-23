@@ -2,19 +2,21 @@ package crypto
 
 import ()
 
-func BanerwaiApiV1CheckSign(sign, api_key string, args ...string) bool {
+// BanerwaiAPIV1CheckSign banerwai api sign check
+func BanerwaiAPIV1CheckSign(sign, apiKey string, args ...string) bool {
 	if len(sign) == 0 {
 		return false
 	}
-	total := api_key
+	total := apiKey
 	for _, arg := range args {
 		total += arg
 	}
 	return CompareDoubleMd5(total, sign)
 }
 
-func BanerwaiApiV1GenSign(api_key string, args ...string) string {
-	total := api_key
+// BanerwaiAPIV1GenSign banerwai api gen sign
+func BanerwaiAPIV1GenSign(apiKey string, args ...string) string {
+	total := apiKey
 	for _, arg := range args {
 		total += arg
 	}

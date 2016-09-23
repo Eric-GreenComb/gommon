@@ -6,48 +6,53 @@ import (
 	"encoding/base64"
 )
 
+// EncryptAes encrypt by aes
 func EncryptAes(origData, key []byte) ([]byte, error) {
 	result, err := AesEncrypt(origData, key)
 	if err != nil {
 		return nil, err
 	}
-	_en_base64 := base64.StdEncoding.EncodeToString(result)
-	return []byte(_en_base64), nil
+	_enBase64 := base64.StdEncoding.EncodeToString(result)
+	return []byte(_enBase64), nil
 }
 
+// DecryptAes decrypt by aes
 func DecryptAes(crypted, key []byte) ([]byte, error) {
-	_de_base64, err := base64.StdEncoding.DecodeString(string(crypted))
+	_deBase64, err := base64.StdEncoding.DecodeString(string(crypted))
 	if err != nil {
 		return nil, err
 	}
-	origData, err := AesDecrypt(_de_base64, key)
+	origData, err := AesDecrypt(_deBase64, key)
 	if err != nil {
 		return nil, err
 	}
 	return origData, nil
 }
 
+// EncryptAesString encrypt aes 2 string
 func EncryptAesString(origData, key string) (string, error) {
 	result, err := AesEncrypt([]byte(origData), []byte(key))
 	if err != nil {
 		return "", err
 	}
-	_en_base64 := base64.StdEncoding.EncodeToString(result)
-	return _en_base64, nil
+	_enBase64 := base64.StdEncoding.EncodeToString(result)
+	return _enBase64, nil
 }
 
+// DecryptAesString decrypt aes 2 string
 func DecryptAesString(crypted, key string) (string, error) {
-	_de_base64, err := base64.StdEncoding.DecodeString(crypted)
+	_enBase64, err := base64.StdEncoding.DecodeString(crypted)
 	if err != nil {
 		return "", err
 	}
-	origData, err := AesDecrypt(_de_base64, []byte(key))
+	origData, err := AesDecrypt(_enBase64, []byte(key))
 	if err != nil {
 		return "", err
 	}
 	return string(origData), nil
 }
 
+// AesEncrypt encrypt aes 2 []byte
 func AesEncrypt(origData, key []byte) ([]byte, error) {
 	block, err := aes.NewCipher(key)
 	if err != nil {
@@ -64,6 +69,7 @@ func AesEncrypt(origData, key []byte) ([]byte, error) {
 	return crypted, nil
 }
 
+// AesDecrypt decrypt aes 2 []byte
 func AesDecrypt(crypted, key []byte) ([]byte, error) {
 	block, err := aes.NewCipher(key)
 	if err != nil {

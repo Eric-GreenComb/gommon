@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 )
 
+// Compress compress string
 func Compress(str string) string {
 	var buff bytes.Buffer
 	w := zlib.NewWriter(&buff)
@@ -16,6 +17,7 @@ func Compress(str string) string {
 	return com
 }
 
+// Decompress decompress string
 func Decompress(comp string) string {
 	buff := bytes.NewBuffer([]byte(comp))
 	r, err := zlib.NewReader(buff)

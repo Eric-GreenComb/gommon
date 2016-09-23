@@ -8,6 +8,7 @@ import (
 	"path"
 )
 
+// TarGz tar.gz dir2file
 func TarGz(srcDirPath string, destFilePath string) (ok bool) {
 	defer func() { //必须要先声明defer，否则不能捕获到panic异常
 		if err := recover(); err != nil {
@@ -139,7 +140,7 @@ func tarGzFile(srcFile string, recPath string, tw *tar.Writer, fi os.FileInfo) {
 	}
 }
 
-// Ungzip and untar from source file to destination directory
+// UnTarGz Ungzip and untar from source file to destination directory
 // you need check file exist before you call this function
 func UnTarGz(srcFilePath string, destDirPath string) {
 	//    fmt.Println("UnTarGzing " + srcFilePath + "...")

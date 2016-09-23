@@ -5,6 +5,7 @@ import (
 	"crypto/des"
 )
 
+// DesEncrypt des encrypt 2 []byte
 func DesEncrypt(origData, key []byte) ([]byte, error) {
 	block, err := des.NewCipher(key)
 	if err != nil {
@@ -20,6 +21,7 @@ func DesEncrypt(origData, key []byte) ([]byte, error) {
 	return crypted, nil
 }
 
+// DesDecrypt des decrypt 2 []byte
 func DesDecrypt(crypted, key []byte) ([]byte, error) {
 	block, err := des.NewCipher(key)
 	if err != nil {
@@ -34,7 +36,7 @@ func DesDecrypt(crypted, key []byte) ([]byte, error) {
 	return origData, nil
 }
 
-// 3DES加密
+// TripleDesEncrypt 3DES加密
 func TripleDesEncrypt(origData, key []byte) ([]byte, error) {
 	block, err := des.NewTripleDESCipher(key)
 	if err != nil {
@@ -48,7 +50,7 @@ func TripleDesEncrypt(origData, key []byte) ([]byte, error) {
 	return crypted, nil
 }
 
-// 3DES解密
+// TripleDesDecrypt 3DES解密
 func TripleDesDecrypt(crypted, key []byte) ([]byte, error) {
 	block, err := des.NewTripleDESCipher(key)
 	if err != nil {

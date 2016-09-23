@@ -14,6 +14,7 @@ import (
 // Gzip and tar from source directory or file to destination file
 // you need check file exist before you call this function
 
+// Zip zip dir2file
 func Zip(srcDirPath string, destFilePath string) (ok bool) {
 	defer func() { //必须要先声明defer，否则不能捕获到panic异常
 		if err := recover(); err != nil {
@@ -124,7 +125,7 @@ func zipFile(srcFile string, recPath string, tw *zip.Writer, fi os.FileInfo) {
 	}
 }
 
-// Ungzip and untar from source file to destination directory
+// Unzip nnzip and untar from source file to destination directory
 // you need check file exist before you call this function
 func Unzip(srcFilePath string, destDirPath string) (ok bool, msg string) {
 	ok = false

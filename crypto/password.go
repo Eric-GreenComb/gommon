@@ -1,4 +1,3 @@
-// contains two cryptographic functions for both storing and comparing passwords.
 package crypto
 
 import (
@@ -27,7 +26,7 @@ func CompareHash(digest []byte, password string) bool {
 	return false
 }
 
-// 随机密码
+// RandomPwd 随机密码
 // num 几位
 func RandomPwd(num int) string {
 	chars := make([]byte, 62)
@@ -56,7 +55,7 @@ func RandomPwd(num int) string {
 	return str
 }
 
-//生成随机字符串
+// GetRandomString 生成随机字符串
 func GetRandomString(num int) string {
 	str := "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	bytes := []byte(str)
@@ -69,28 +68,32 @@ func GetRandomString(num int) string {
 }
 
 const (
-	KC_RAND_KIND_NUM   = 0 // 纯数字
-	KC_RAND_KIND_LOWER = 1 // 小写字母
-	KC_RAND_KIND_UPPER = 2 // 大写字母
-	KC_RAND_KIND_ALL   = 3 // 数字、大小写字母
+	// KcRandKindNum 纯数字
+	KcRandKindNum = 0
+	// KcRandKindLower 小写字母
+	KcRandKindLower = 1
+	// KcRandKindUpper 大写字母
+	KcRandKindUpper = 2
+	// KcRandKindAll 数字、大小写字母
+	KcRandKindAll = 3
 )
 
-// 随机字符串
+// Krand 随机字符串
 func Krand(size int, kind int) string {
 	ikind, kinds, result := kind, [][]int{[]int{10, 48}, []int{26, 97}, []int{26, 65}}, make([]byte, size)
-	is_all := kind > 2 || kind < 0
-	math_rand.Seed(time.Now().UnixNano())
+	isAll := kind > 2 || kind < 0
+	mathRand.Seed(time.Now().UnixNano())
 	for i := 0; i < size; i++ {
-		if is_all { // random ikind
-			ikind = math_rand.Intn(3)
+		if isAll { // random ikind
+			ikind = mathRand.Intn(3)
 		}
 		scope, base := kinds[ikind][0], kinds[ikind][1]
-		result[i] = uint8(base + math_rand.Intn(scope))
+		result[i] = uint8(base + mathRand.Intn(scope))
 	}
 	return string(result)
 }
 
-// 返回输入参数以下的随机数字，如输入参数为5，随机返回0,1,2,3,4
+// GetRandomItNum 返回输入参数以下的随机数字，如输入参数为5，随机返回0,1,2,3,4
 func GetRandomItNum(num int) int {
 	if num == 0 {
 		return 0
