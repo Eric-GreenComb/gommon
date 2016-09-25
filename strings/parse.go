@@ -2,6 +2,7 @@ package strings
 
 import ()
 
+// ID2Province id 2 chinese province
 func ID2Province(id string) string {
 	switch id {
 	case "11":
@@ -83,8 +84,9 @@ func ID2Province(id string) string {
 	return ""
 }
 
+// ParseIDCard parse province and year by idcard
 func ParseIDCard(idcard string) (string, string) {
-	province_id := Substr(idcard, 0, 2)
+	provinceID := Substr(idcard, 0, 2)
 	year := Substr(idcard, 6, 4)
-	return ID2Province(province_id), year
+	return ID2Province(provinceID), year
 }

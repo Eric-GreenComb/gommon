@@ -10,7 +10,8 @@ import (
 	"net/url"
 )
 
-func PostRawJson(finalURL string, req []byte, response interface{}) (err error) {
+// PostRawJSON post json []byte
+func PostRawJSON(finalURL string, req []byte, response interface{}) (err error) {
 	httpResp, err := http.DefaultClient.Post(finalURL, "application/json; charset=utf-8", bytes.NewReader(req))
 	if err != nil {
 		return
@@ -27,7 +28,8 @@ func PostRawJson(finalURL string, req []byte, response interface{}) (err error) 
 	return
 }
 
-func PostJsonObj(finalURL, _json string, response interface{}) (err error) {
+// PostJSONObj post json object
+func PostJSONObj(finalURL, _json string, response interface{}) (err error) {
 
 	httpResp, err := http.DefaultClient.Post(finalURL, "application/json; charset=utf-8", bytes.NewReader([]byte(_json)))
 	if err != nil {
@@ -45,7 +47,8 @@ func PostJsonObj(finalURL, _json string, response interface{}) (err error) {
 	return
 }
 
-func PostJsonString(finalURL, _json string) (response string, err error) {
+// PostJSONString post json string and return response string
+func PostJSONString(finalURL, _json string) (response string, err error) {
 
 	httpResp, err := http.DefaultClient.Post(finalURL, "application/json; charset=utf-8", bytes.NewReader([]byte(_json)))
 	if err != nil {
@@ -65,6 +68,7 @@ func PostJsonString(finalURL, _json string) (response string, err error) {
 	return string(_responseBody), nil
 }
 
+// PostForm post form data
 func PostForm(url string, data url.Values) (response string, err error) {
 	resp, err := http.PostForm(url, data)
 
@@ -81,6 +85,7 @@ func PostForm(url string, data url.Values) (response string, err error) {
 	return string(body), nil
 }
 
+// Post post body
 func Post(url string, bodyType string, body io.Reader) (response string, err error) {
 	resp, err := http.Post(url, bodyType, body)
 	if err != nil {

@@ -11,6 +11,7 @@ import (
 
 var sessionProperties []string
 
+// Context martini context
 type Context struct {
 	render.Render
 	C        martini.Context
@@ -24,23 +25,25 @@ type Context struct {
 	Session  map[string]interface{}
 }
 
-func (self *Context) init() {
-	if self.Response == nil {
-		self.Response = make(map[string]interface{})
+func (context *Context) init() {
+	if context.Response == nil {
+		context.Response = make(map[string]interface{})
 	}
-	if self.Session == nil {
-		self.Session = make(map[string]interface{})
+	if context.Session == nil {
+		context.Session = make(map[string]interface{})
 	}
 }
 
-func (self *Context) SessionGet(key string) interface{} {
-	return self.S.Get(key)
+// SessionGet martini context get session interface
+func (context *Context) SessionGet(key string) interface{} {
+	return context.S.Get(key)
 }
 
-func (self *Context) SessionSet(key string, val interface{}) {
-	self.init()
-	self.S.Set(key, val)
-	self.Session[key] = val
+// SessionSet martini context set session
+func (context *Context) SessionSet(key string, val interface{}) {
+	context.init()
+	context.S.Set(key, val)
+	context.Session[key] = val
 	for _, val := range sessionProperties {
 		if val == key {
 			return
@@ -49,90 +52,111 @@ func (self *Context) SessionSet(key string, val interface{}) {
 	sessionProperties = append(sessionProperties, key)
 }
 
-func (self *Context) SessionDelete(key string) {
-	delete(self.Response, key)
-	self.S.Delete(key)
+// SessionDelete martini context delete session
+func (context *Context) SessionDelete(key string) {
+	delete(context.Response, key)
+	context.S.Delete(key)
 }
 
-func (self *Context) SessionClear() {
-	self.Clear()
-	self.S.Clear()
+// SessionClear martini context clear session
+func (context *Context) SessionClear() {
+	context.Clear()
+	context.S.Clear()
 }
 
-func (self *Context) Get(key string) interface{} {
-	return self.Response[key]
+// Get martini context get value by key
+func (context *Context) Get(key string) interface{} {
+	return context.Response[key]
 }
 
-func (self *Context) Set(key string, val interface{}) {
-	self.init()
-	self.Response[key] = val
+// Set martini context set key
+func (context *Context) Set(key string, val interface{}) {
+	context.init()
+	context.Response[key] = val
 }
 
-func (self *Context) Delete(key string) {
-	delete(self.Response, key)
+// Delete martini context delete key
+func (context *Context) Delete(key string) {
+	delete(context.Response, key)
 }
 
-func (self *Context) Clear() {
-	for key := range self.Response {
-		self.Delete(key)
+// Clear martini context clear all key
+func (context *Context) Clear() {
+	for key := range context.Response {
+		context.Delete(key)
 	}
 }
 
-func (self *Context) AddMessage(message string) {
-	self.Messages = append(self.Messages, message)
+// AddMessage martini context add message
+func (context *Context) AddMessage(message string) {
+	context.Messages = append(context.Messages, message)
 }
 
-func (self *Context) ClearMessages() {
-	self.Messages = self.Messages[:0]
+// ClearMessages martini context clear all message
+func (context *Context) ClearMessages() {
+	context.Messages = context.Messages[:0]
 }
 
-func (self *Context) HasMessage() bool {
-	return (len(self.Messages) > 0)
+// HasMessage martini context check if has message
+func (context *Context) HasMessage() bool {
+	return (len(context.Messages) > 0)
 }
 
-func (self *Context) SetFormErrors(err binding.Errors) {
-	self.FormErr = err
+// SetFormErrors martini context set form binding error
+func (context *Context) SetFormErrors(err binding.Errors) {
+	context.FormErr = err
 }
 
-func (self *Context) JoinFormErrors(err binding.Errors) {
-	self.init()
+// JoinFormErrors martini context init
+func (context *Context) JoinFormErrors(err binding.Errors) {
+	context.init()
 }
 
-func (self *Context) AddError(err string) {
-	self.Errors = append(self.Errors, err)
+// AddError martini context add error
+func (context *Context) AddError(err string) {
+	context.Errors = append(context.Errors, err)
 }
 
-func (self *Context) AddFieldError(field string, err string) {
+// AddFieldError martini context add field error
+func (context *Context) AddFieldError(field string, err string) {
 }
 
-func (self *Context) ClearError() {
-	self.Errors = self.Errors[:0]
+// ClearError martini context clear all error
+func (context *Context) ClearError() {
+	context.Errors = context.Errors[:0]
 }
 
-func (self *Context) HasError() bool {
-	return self.HasCommonError() || self.HasFieldError() || self.HasOverallError()
+// HasError martini context check if has error
+func (context *Context) HasError() bool {
+	return context.HasCommonError() || context.HasFieldError() || context.HasOverallError()
 }
 
-func (self *Context) HasCommonError() bool {
-	return (len(self.Errors) > 0)
+// HasCommonError martini context check if has common error
+func (context *Context) HasCommonError() bool {
+	return (len(context.Errors) > 0)
 }
 
-func (self *Context) HasFieldError() bool {
+// HasFieldError check if has field error
+func (context *Context) HasFieldError() bool {
 	return false
 }
 
-func (self *Context) HasOverallError() bool {
+// HasOverallError check if has overall error
+func (context *Context) HasOverallError() bool {
 	return false
 }
 
-func (self *Context) OverallErrors() map[string]string {
+// OverallErrors get OverallErrors
+func (context *Context) OverallErrors() map[string]string {
 	return nil
 }
 
-func (self *Context) FieldErrors() map[string]string {
+// FieldErrors get FieldErrors
+func (context *Context) FieldErrors() map[string]string {
 	return nil
 }
 
+// InitContext init martini context
 func InitContext() martini.Handler {
 	return func(c martini.Context, s sessions.Session, rnd render.Render, r *http.Request, w http.ResponseWriter) {
 		ctx := &Context{

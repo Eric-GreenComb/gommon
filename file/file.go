@@ -10,7 +10,7 @@ import (
 	bgstrings "github.com/banerwai/gommon/strings"
 )
 
-// 分离文件名与扩展名(包含.)
+// SplitFilename 分离文件名与扩展名(包含.)
 func SplitFilename(filename string) (baseName, ext string) {
 	baseName = filename
 	// 找到最后一个'.'
@@ -20,7 +20,7 @@ func SplitFilename(filename string) (baseName, ext string) {
 	return
 }
 
-// 转换文件的格式
+// TransferExt 转换文件的格式
 // toExt包含.
 func TransferExt(path string, toExt string) string {
 	dir := filepath.Dir(path) + "/" // 文件路径
@@ -30,11 +30,12 @@ func TransferExt(path string, toExt string) string {
 	return dir + baseName + toExt
 }
 
+// GetFilename get file name
 func GetFilename(path string) string {
 	return filepath.Base(path)
 }
 
-// file size
+// GetFilesize get file size
 // length in bytes
 func GetFilesize(path string) int64 {
 	fileinfo, err := os.Stat(path)
@@ -44,6 +45,7 @@ func GetFilesize(path string) int64 {
 	return 0
 }
 
+// CopyFile cp file
 func CopyFile(srcName, dstName string) (written int64, err error) {
 	src, err := os.Open(srcName)
 	if err != nil {
@@ -58,6 +60,7 @@ func CopyFile(srcName, dstName string) (written int64, err error) {
 	return io.Copy(dst, src)
 }
 
+// DeleteFile delete file
 func DeleteFile(path string) bool {
 	err := os.Remove(path)
 	if err != nil {
@@ -66,7 +69,7 @@ func DeleteFile(path string) bool {
 	return true
 }
 
-// 获得文件str内容
+// GetFileStrContent 获得文件str内容
 func GetFileStrContent(path string) string {
 	fileBytes, err := ioutil.ReadFile(path)
 	if err != nil {
@@ -75,6 +78,7 @@ func GetFileStrContent(path string) string {
 	return string(fileBytes)
 }
 
+// IsFileExist check file is exist
 func IsFileExist(filename string) bool {
 	var exist = true
 	if _, err := os.Stat(filename); os.IsNotExist(err) {
@@ -83,7 +87,7 @@ func IsFileExist(filename string) bool {
 	return exist
 }
 
-// 写入string内容
+// PutFileStrContent 写入string内容
 func PutFileStrContent(path, content string) bool {
 	var f *os.File
 	var err1 error

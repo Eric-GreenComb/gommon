@@ -21,6 +21,7 @@ func init() {
 	AppSecret = *appSecret
 }
 
+// DoPost post data 2 alidayu
 func DoPost(m map[string]string) (success bool, response string) {
 	if AppKey == "" || AppSecret == "" {
 		return false, "AppKey or AppSecret is requierd!"
@@ -43,9 +44,8 @@ func DoPost(m map[string]string) (success bool, response string) {
 	response = string(data)
 	if strings.Contains(response, "success") {
 		return true, response
-	} else {
-		return false, response
 	}
+	return false, response
 }
 
 func getRequestBody(m map[string]string) (reader io.Reader, size int64) {

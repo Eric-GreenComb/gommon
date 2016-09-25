@@ -27,10 +27,10 @@ type RegistryClient interface {
 	ServicesByName(name string) ([]string, error)
 }
 
-// EtcdRegistryConfig is configuration structure
+// RegistryConfig is configuration structure
 // for connectiong to etcd instance
 // and identify the service.
-type EtcdRegistryConfig struct {
+type RegistryConfig struct {
 	// EtcdEndpoints that service
 	// registry client connects to.
 	EtcdEndpoints []string
@@ -54,20 +54,20 @@ type EtcdRegistryConfig struct {
 	cancel          context.CancelFunc
 }
 
-// EtcdReigistryClient  structure implements the
+// ReigistryClient  structure implements the
 // basic functionality for service registration
 // in etcd.
 // After the Reguster method is called, the client
 // periodically refreshes the record about the
 // service.
-type EtcdReigistryClient struct {
-	EtcdRegistryConfig
+type ReigistryClient struct {
+	RegistryConfig
 	EtcdKApi client.KeysAPI
 }
 
 // New creates the EtcdRegistryClient
 // with service paramters defined by config.
-func New(config EtcdRegistryConfig) (*EtcdReigistryClient, error) {
+func New(config RegistryConfig) (*ReigistryClient, error) {
 	cfg := client.Config{
 		Endpoints:               config.EtcdEndpoints,
 		Transport:               client.DefaultTransport,
@@ -79,7 +79,7 @@ func New(config EtcdRegistryConfig) (*EtcdReigistryClient, error) {
 		return nil, err
 	}
 
-	etcdClient := &EtcdReigistryClient{
+	etcdClient := &ReigistryClient{
 		config,
 		client.NewKeysAPI(c),
 	}
@@ -91,7 +91,7 @@ func New(config EtcdRegistryConfig) (*EtcdReigistryClient, error) {
 // Once the Register is called, the client
 // also periodically
 // calls the refresh goroutine.
-func (e *EtcdReigistryClient) Register() error {
+func (e *ReigistryClient) Register() error {
 	e.etcdKey = buildKey(e.ServiceName, e.InstanceName)
 	value := registerDTO{
 		e.BaseURL,
@@ -140,7 +140,7 @@ func (e *EtcdReigistryClient) Register() error {
 // Unregister removes the service instance from
 // etcd. Once the Unregister method is called,
 // the periodicall refresh goroutine is cancelled.
-func (e *EtcdReigistryClient) Unregister() error {
+func (e *ReigistryClient) Unregister() error {
 	e.cancel()
 	e.keepAliveTicker.Stop()
 	_, err := e.EtcdKApi.Delete(context.Background(), e.etcdKey, nil)
@@ -151,9 +151,10 @@ func (e *EtcdReigistryClient) Unregister() error {
 // ServicesByName query the
 // etcd instance for service nodes for service
 // by given name.
-func (e *EtcdReigistryClient) ServicesByName(name string) ([]string, error) {
+func (e *ReigistryClient) ServicesByName(name string) ([]string, error) {
 	response, err := e.EtcdKApi.Get(context.Background(), fmt.Sprintf("/%s", name), nil)
-	ipList := make([]string, 0)
+	var ipList []string
+	ipList = make([]string, 0)
 	if err == nil {
 		for _, node := range response.Node.Nodes {
 			val := &registerDTO{}
@@ -172,9 +173,11 @@ func buildKey(servicetype, instanceName string) string {
 	return fmt.Sprintf("%s/%s", servicetype, instanceName)
 }
 
+// GetServicesByName get service by name
 func GetServicesByName(name string) ([]string, error) {
 	response, err := KeysAPI.Get(context.Background(), fmt.Sprintf("/%s", name), nil)
-	ipList := make([]string, 0)
+	var ipList []string
+	ipList = make([]string, 0)
 	if err == nil {
 		for _, node := range response.Node.Nodes {
 			val := &registerDTO{}

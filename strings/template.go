@@ -5,6 +5,7 @@ import (
 	"html/template"
 )
 
+// ParseTpl parse tpl
 func ParseTpl(tplname, tpl string, mmap map[string]string) string {
 	_tpl, _err := template.New(tplname).Parse(tpl)
 	if _err != nil {

@@ -1,12 +1,20 @@
 package alidayu
 
 const (
-	URL               string = "http://gw.api.taobao.com/router/rest"
-	Method_SendSMS    string = "alibaba.aliqin.fc.sms.num.send"
-	Method_CallTTS    string = "alibaba.aliqin.fc.tts.num.singlecall"
-	Method_CallVoice  string = "alibaba.aliqin.fc.voice.num.singlecall"
-	Method_CallDouble string = "alibaba.aliqin.fc.voice.num.doublecall"
+	// URL alidayu url
+	URL string = "http://gw.api.taobao.com/router/rest"
+	// MethodSendSMS send sms
+	MethodSendSMS string = "alibaba.aliqin.fc.sms.num.send"
+	// MethodCallTTS call tts
+	MethodCallTTS string = "alibaba.aliqin.fc.tts.num.singlecall"
+	// MethodCallVoice call voice
+	MethodCallVoice string = "alibaba.aliqin.fc.voice.num.singlecall"
+	// MethodCallDouble call double
+	MethodCallDouble string = "alibaba.aliqin.fc.voice.num.doublecall"
 )
 
+// AppKey app key
 var AppKey string
+
+// AppSecret app secret
 var AppSecret string

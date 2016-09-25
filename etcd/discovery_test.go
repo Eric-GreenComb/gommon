@@ -32,8 +32,8 @@ func TestBasic(t *testing.T) {
 	// 	kapi,
 	// }
 
-	client := EtcdReigistryClient{
-		EtcdRegistryConfig{
+	client := ReigistryClient{
+		RegistryConfig{
 			ServiceName:  "banerwai/micros/query/category/addr",
 			InstanceName: "127.0.0.1:8080",
 			BaseURL:      "127.0.0.1:8080",

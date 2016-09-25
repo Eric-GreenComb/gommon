@@ -7,6 +7,7 @@ import (
 	"strings"
 )
 
+// Substr golang substr
 func Substr(s string, pos, length int) string {
 	runes := []rune(s)
 	l := pos + length
@@ -16,10 +17,12 @@ func Substr(s string, pos, length int) string {
 	return string(runes[pos:l])
 }
 
+// GetParentDirectory get parent directory
 func GetParentDirectory(dirctory string) string {
 	return Substr(dirctory, 0, strings.LastIndex(dirctory, "/"))
 }
 
+// GetCurrentDirectory get current directory
 func GetCurrentDirectory() string {
 	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
 	if err != nil {
@@ -28,7 +31,7 @@ func GetCurrentDirectory() string {
 	return strings.Replace(dir, "\\", "/", -1)
 }
 
-// 清空dir下所有的文件和文件夹
+// ClearDir 清空dir下所有的文件和文件夹
 // RemoveAll会清空本文件夹, 所以还要创建之
 func ClearDir(dir string) bool {
 	err := os.RemoveAll(dir)
@@ -42,6 +45,7 @@ func ClearDir(dir string) bool {
 	return true
 }
 
+// MkdirAll 创建文件夹
 func MkdirAll(dir string) bool {
 	err := os.MkdirAll(dir, 0777)
 	if err != nil {
@@ -50,7 +54,7 @@ func MkdirAll(dir string) bool {
 	return true
 }
 
-// list dir's all file, return filenames
+// ListDir list dir's all file, return filenames
 func ListDir(dir string) []string {
 	f, err := os.Open(dir)
 	if err != nil {
@@ -60,6 +64,7 @@ func ListDir(dir string) []string {
 	return names
 }
 
+// CopyDir cp dir
 func CopyDir(source string, dest string) (err error) {
 	// get properties of source dir
 	sourceinfo, err := os.Stat(source)
@@ -68,7 +73,6 @@ func CopyDir(source string, dest string) (err error) {
 	}
 
 	// create dest dir
-
 	err = os.MkdirAll(dest, sourceinfo.Mode())
 	if err != nil {
 		return err
@@ -101,12 +105,11 @@ func CopyDir(source string, dest string) (err error) {
 	return
 }
 
+// IsDirExists check if dir is exist
 func IsDirExists(path string) bool {
 	fi, err := os.Stat(path)
 	if err != nil {
 		return os.IsExist(err)
-	} else {
-		return fi.IsDir()
 	}
-	return false
+	return fi.IsDir()
 }

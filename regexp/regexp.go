@@ -4,11 +4,11 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
-	"gopkg.in/mgo.v2/bson"
 	"regexp"
 	"strings"
 )
 
+// ReplaceAll replace string
 func ReplaceAll(oldStr, pattern, newStr string) string {
 	p, _ := regexp.Compile(pattern)
 	s := p.ReplaceAll([]byte(oldStr), []byte(newStr))
@@ -16,7 +16,7 @@ func ReplaceAll(oldStr, pattern, newStr string) string {
 }
 
 // 自带方法补全html
-func fixHtml(result string) string {
+func fixHTML(result string) string {
 	// 取出所有标签
 	tempResult := ReplaceAll(result, "(>)[^<>]*(<?)", "$1$2") // 把标签中间的所有内容都去掉了
 
@@ -59,7 +59,7 @@ func fixHtml(result string) string {
 	return result
 }
 
-// 获取摘要, HTML
+// SubStringHTML 获取摘要, HTML
 func SubStringHTML(param string, length int, end string) string {
 	if param == "" {
 		return param
@@ -119,12 +119,11 @@ func SubStringHTML(param string, length int, end string) string {
 		return html
 
 		// 如果有错误, 则使用自己的方法补全, 有风险
-	} else {
-		return fixHtml(result)
 	}
+	return fixHTML(result)
 }
 
-// 是否是合格的密码
+// IsGoodPwd 是否是合格的密码
 func IsGoodPwd(pwd string) (bool, string) {
 	if pwd == "" {
 		return false, "密码不能为空"
@@ -135,7 +134,7 @@ func IsGoodPwd(pwd string) (bool, string) {
 	return true, ""
 }
 
-// 是否是email
+// IsEmail 是否是email
 func IsEmail(email string) bool {
 	if email == "" {
 		return false
@@ -144,7 +143,7 @@ func IsEmail(email string) bool {
 	return ok
 }
 
-// 是否只包含数字, 字母 -, _
+// IsUsername 是否只包含数字, 字母 -, _
 func IsUsername(username string) bool {
 	if username == "" {
 		return false
@@ -153,25 +152,12 @@ func IsUsername(username string) bool {
 	return !ok
 }
 
-// 是否是ObjectId
-func IsObjectId(id string) (ok bool) {
-	defer func() { // 必须要先声明defer，否则不能捕获到panic异常
-		// 证明有错误发生
-		if err := recover(); err != nil {
-			ok = false
-		} else {
-			ok = true
-		}
-	}()
-	bson.ObjectIdHex(id)
-	return
-}
-
 const (
-	regular_mobile = "^(13[0-9]|14[57]|15[0-35-9]|18[07-9])\\d{8}$"
+	regularMobile = "^(13[0-9]|14[57]|15[0-35-9]|18[07-9])\\d{8}$"
 )
 
+// IsMobile check if mobile
 func IsMobile(mobileNum string) bool {
-	reg := regexp.MustCompile(regular_mobile)
+	reg := regexp.MustCompile(regularMobile)
 	return reg.MatchString(mobileNum)
 }

@@ -8,6 +8,7 @@ import (
 	"github.com/coreos/etcd/client"
 )
 
+// KeysAPI etcd KeysAPI
 var KeysAPI client.KeysAPI
 
 const (

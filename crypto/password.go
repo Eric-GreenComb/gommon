@@ -2,7 +2,7 @@ package crypto
 
 import (
 	"golang.org/x/crypto/bcrypt"
-	math_rand "math/rand"
+	mathRand "math/rand"
 	"time"
 )
 
@@ -46,9 +46,9 @@ func RandomPwd(num int) string {
 	j--
 
 	str := ""
-	math_rand.Seed(time.Now().UnixNano())
+	mathRand.Seed(time.Now().UnixNano())
 	for i := 0; i < num; i++ {
-		x := math_rand.Intn(j)
+		x := mathRand.Intn(j)
 		str += string(chars[x])
 	}
 
@@ -60,7 +60,7 @@ func GetRandomString(num int) string {
 	str := "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	bytes := []byte(str)
 	result := []byte{}
-	r := math_rand.New(math_rand.NewSource(time.Now().UnixNano()))
+	r := mathRand.New(mathRand.NewSource(time.Now().UnixNano()))
 	for i := 0; i < num; i++ {
 		result = append(result, bytes[r.Intn(len(bytes))])
 	}
@@ -98,6 +98,6 @@ func GetRandomItNum(num int) int {
 	if num == 0 {
 		return 0
 	}
-	r := math_rand.New(math_rand.NewSource(time.Now().UnixNano()))
+	r := mathRand.New(mathRand.NewSource(time.Now().UnixNano()))
 	return r.Intn(num)
 }

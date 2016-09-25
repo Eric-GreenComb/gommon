@@ -11,13 +11,13 @@ import (
 	"github.com/banerwai/gommon/crypto"
 )
 
-// Google UUID
+// UUID Google UUID
 func UUID() string {
 	return strings.Replace(googleuuid.NewRandom().String(), "-", "", -1)
 }
 
-// Guid
-func NewGuid() string {
+// NewGUID md5 Guid
+func NewGUID() string {
 	b := make([]byte, 48)
 
 	if _, err := io.ReadFull(rand.Reader, b); err != nil {
@@ -26,8 +26,8 @@ func NewGuid() string {
 	return crypto.Md5(base64.URLEncoding.EncodeToString(b))
 }
 
-// 后面加个str生成之, 更有保障, 确保唯一
-func NewGuidWith(str string) string {
+// NewGUIDWith md5 Guid 后面加个str生成之, 更有保障, 确保唯一
+func NewGUIDWith(str string) string {
 	b := make([]byte, 48)
 
 	if _, err := io.ReadFull(rand.Reader, b); err != nil {

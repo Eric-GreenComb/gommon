@@ -10,7 +10,7 @@ import (
 func TestNewGuid(t *testing.T) {
 	begin := time.Now()
 
-	_uuid := NewGuid()
+	_uuid := NewGUID()
 	fmt.Println(_uuid)
 
 	fmt.Println(time.Since(begin))
@@ -19,7 +19,7 @@ func TestNewGuid(t *testing.T) {
 func TestNewGuidWith(t *testing.T) {
 	begin := time.Now()
 
-	_uuid := NewGuidWith("ministor@126.com")
+	_uuid := NewGUIDWith("ministor@126.com")
 	fmt.Println(_uuid)
 
 	fmt.Println(time.Since(begin))

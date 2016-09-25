@@ -4,15 +4,17 @@ import (
 	"bytes"
 )
 
-// 以byte来截取
+// SubstringByte 以byte来截取
 func SubstringByte(str string, start int) string {
 	return substr(str, start, len(str)-start, false)
 }
 
+// Substring sub string
 func Substring(str string, start int) string {
 	return substr(str, start, len(str)-start, true)
 }
 
+// Substr sub string
 func Substr(str string, start, length int) string {
 	return substr(str, start, length, true)
 }
@@ -55,6 +57,7 @@ func substr(str string, start, length int, isRune bool) string {
 	return string(rs2[start:end])
 }
 
+// ConstructString construct string
 func ConstructString(strings ...string) string {
 	var buf bytes.Buffer
 	for _, str := range strings {
