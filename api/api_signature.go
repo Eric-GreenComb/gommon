@@ -19,14 +19,31 @@ func CheckAPIJson(jsonRequest string) bool {
 // CheckAPISignature check api signature
 func CheckAPISignature(request request.APIRequest) bool {
 	var _sortKeys []string
-	for _, v := range request.Payload.SortKeys {
-		_sortKeys = append(_sortKeys, v)
+	for k := range request.Payload.Params {
+		_sortKeys = append(_sortKeys, k)
 	}
 	sort.Strings(_sortKeys)
 	param := strconv.FormatInt(request.Payload.Iat, 10) + "."
 	for _, k := range _sortKeys {
 		param += request.Payload.Params[k]
 	}
-	param += constant.BanerwaiAPISignKey
-	return crypto.CompareMd5(param, request.Signature.Sign)
+
+	bRet := false
+	switch request.Signature.Alg {
+	case "md5":
+		param += constant.BanerwaiAPISignKey
+		bRet = crypto.CompareMd5(param, request.Signature.Sign)
+	case "hs256":
+		bRet = crypto.CompareHS256Hex(param, constant.BanerwaiAPISignKey, request.Signature.Sign)
+	case "hs512":
+		bRet = crypto.CompareHS512Hex(param, constant.BanerwaiAPISignKey, request.Signature.Sign)
+	case "sha256":
+		param += constant.BanerwaiAPISignKey
+		bRet = crypto.CompareSHA256Hex(param, request.Signature.Sign)
+	case "sha512":
+		param += constant.BanerwaiAPISignKey
+		bRet = crypto.CompareSHA512Hex(param, request.Signature.Sign)
+	}
+
+	return bRet
 }

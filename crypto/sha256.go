@@ -29,3 +29,11 @@ func SHA256Hex(in string) string {
 	md := hash.Sum(nil)
 	return hex.EncodeToString(md)
 }
+
+// CompareSHA256Hex compare sha256 value
+func CompareSHA256Hex(in, sha256Hex string) bool {
+	if SHA256Hex(in) == sha256Hex {
+		return true
+	}
+	return false
+}

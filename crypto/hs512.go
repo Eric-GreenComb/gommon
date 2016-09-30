@@ -29,3 +29,11 @@ func HS512Hex(in, secret string) string {
 	h.Write([]byte(in))
 	return hex.EncodeToString(h.Sum(nil))
 }
+
+// CompareHS512Hex compare HS512Hex value
+func CompareHS512Hex(in, secret, hs512Hex string) bool {
+	if HS512Hex(in, secret) == hs512Hex {
+		return true
+	}
+	return false
+}

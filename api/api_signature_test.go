@@ -33,22 +33,37 @@ func TestCheckAPIJson(t *testing.T) {
 	_mapParams["p"] = "13811111111"
 	APIRequestPayload.Params = _mapParams
 
+	APIRequest.Payload = APIRequestPayload
+
+	var APIRequestSignature request.APIRequestSignature
+
 	var _sortKeys []string
 	for k := range _mapParams {
 		_sortKeys = append(_sortKeys, k)
 	}
-	APIRequestPayload.SortKeys = _sortKeys
-	APIRequest.Payload = APIRequestPayload
-
-	var APIRequestSignature request.APIRequestSignature
 	sort.Strings(_sortKeys)
 	param := strconv.FormatInt(APIRequestPayload.Iat, 10) + "."
 	for _, k := range _sortKeys {
 		param += _mapParams[k]
 	}
+
+	// APIRequestSignature.Alg = "md5"
+	// param += constant.BanerwaiAPISignKey
+	// APIRequestSignature.Sign = crypto.Md5(param)
+
+	// APIRequestSignature.Alg = "hs256"
+	// APIRequestSignature.Sign = crypto.HS256Hex(param, constant.BanerwaiAPISignKey)
+
+	// APIRequestSignature.Alg = "hs512"
+	// APIRequestSignature.Sign = crypto.HS512Hex(param, constant.BanerwaiAPISignKey)
+
+	APIRequestSignature.Alg = "sha256"
 	param += constant.BanerwaiAPISignKey
-	APIRequestSignature.Alg = "md5"
-	APIRequestSignature.Sign = crypto.Md5(param)
+	APIRequestSignature.Sign = crypto.SHA256Hex(param)
+
+	// APIRequestSignature.Alg = "sha512"
+	// param += constant.BanerwaiAPISignKey
+	// APIRequestSignature.Sign = crypto.SHA512Hex(param)
 
 	APIRequest.Signature = APIRequestSignature
 
@@ -57,8 +72,6 @@ func TestCheckAPIJson(t *testing.T) {
 		fmt.Println("error:", err)
 	}
 	fmt.Println(string(b))
-
-	fmt.Println(CheckAPIJson(string(b)))
 
 	if !CheckAPIJson(string(b)) {
 		t.Errorf("CheckAPIJson error")

@@ -29,3 +29,11 @@ func HS256Hex(in, secret string) string {
 	h.Write([]byte(in))
 	return hex.EncodeToString(h.Sum(nil))
 }
+
+// CompareHS256Hex compare HS256Hex value
+func CompareHS256Hex(in, secret, hs256Hex string) bool {
+	if HS256Hex(in, secret) == hs256Hex {
+		return true
+	}
+	return false
+}
