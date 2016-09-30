@@ -29,8 +29,8 @@ func TestCheckAPIJson(t *testing.T) {
 
 	_mapParams := make(map[string]string)
 
-	_mapParams["u"] = "ministor@126.com"
-	_mapParams["p"] = "13811111111"
+	_mapParams["name"] = "eric"
+	_mapParams["tel"] = "13811111111"
 	APIRequestPayload.Params = _mapParams
 
 	APIRequest.Payload = APIRequestPayload

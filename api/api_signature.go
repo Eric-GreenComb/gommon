@@ -47,3 +47,12 @@ func CheckAPISignature(request request.APIRequest) bool {
 
 	return bRet
 }
+
+// TransferMap2ArrayMap transfer map[string]string 2 map[string][]string( like url.Values)
+func TransferMap2ArrayMap(mapIn map[string]string) map[string][]string {
+	_aMap := make(map[string][]string)
+	for k, v := range mapIn {
+		_aMap[k] = []string{v}
+	}
+	return _aMap
+}
