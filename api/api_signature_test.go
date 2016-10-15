@@ -51,15 +51,15 @@ func TestCheckAPIJson(t *testing.T) {
 	// param += constant.BanerwaiAPISignKey
 	// APIRequestSignature.Sign = crypto.Md5(param)
 
-	// APIRequestSignature.Alg = "hs256"
-	// APIRequestSignature.Sign = crypto.HS256Hex(param, constant.BanerwaiAPISignKey)
+	APIRequestSignature.Alg = "hs256"
+	APIRequestSignature.Sign = crypto.HS256Hex(param, constant.BanerwaiAPISignKey)
 
 	// APIRequestSignature.Alg = "hs512"
 	// APIRequestSignature.Sign = crypto.HS512Hex(param, constant.BanerwaiAPISignKey)
 
-	APIRequestSignature.Alg = "sha256"
-	param += constant.BanerwaiAPISignKey
-	APIRequestSignature.Sign = crypto.SHA256Hex(param)
+	// APIRequestSignature.Alg = "sha256"
+	// param += constant.BanerwaiAPISignKey
+	// APIRequestSignature.Sign = crypto.SHA256Hex(param)
 
 	// APIRequestSignature.Alg = "sha512"
 	// param += constant.BanerwaiAPISignKey
