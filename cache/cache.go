@@ -16,11 +16,11 @@ type cachetable map[string]*object
 var (
 	cache cachetable
 	// ErrTimeOut err.Error : timeout
-	ErrTimeOut error = errors.New("The cache has been timeout.")
+	ErrTimeOut = errors.New("The cache has been timeout.")
 	// ErrKeyNotFound err.Error key not found
-	ErrKeyNotFound error = errors.New("The key was not found.")
+	ErrKeyNotFound = errors.New("The key was not found.")
 	// ErrTypeAssertion err.Error type assertion
-	ErrTypeAssertion error = errors.New("Type assertion error.")
+	ErrTypeAssertion = errors.New("Type assertion error.")
 )
 
 func init() {
