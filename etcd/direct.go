@@ -32,10 +32,3 @@ func GetString(key string) string {
 	}
 	return resp
 }
-
-// GetService key = /banerwai/mongo return multi node
-// /banerwai/mongo/conn       localhost:27017
-// banerwai/mongo/database    banerwai
-func GetService(key string) (*client.Response, error) {
-	return KeysAPI.Get(context.Background(), key, nil)
-}

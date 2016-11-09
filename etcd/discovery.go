@@ -109,7 +109,7 @@ func (e *ReigistryClient) Register() error {
 		return err
 	}
 	refreshTTLFunc := func() error {
-		_, err := e.EtcdKApi.Set(context.Background(), e.etcdKey, "", &client.SetOptions{
+		_, err := e.EtcdKApi.Set(context.Background(), e.etcdKey, string(val), &client.SetOptions{
 			TTL:     TTL,
 			Refresh: true,
 		})

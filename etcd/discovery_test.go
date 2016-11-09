@@ -34,7 +34,7 @@ func TestBasic(t *testing.T) {
 
 	client := ReigistryClient{
 		RegistryConfig{
-			ServiceName:  "banerwai/micros/query/category/addr",
+			ServiceName:  "/banerwai/service/test",
 			InstanceName: "127.0.0.1:8080",
 			BaseURL:      "127.0.0.1:8080",
 		},
@@ -42,11 +42,11 @@ func TestBasic(t *testing.T) {
 	}
 	client.Register()
 
-	response, _ := client.ServicesByName("banerwai/micros/query/category/addr")
-	fmt.Println(response)
+	response, _ := client.ServicesByName("banerwai/service/test")
 	if len(response) == 0 {
 		t.Error("No service registered")
 	}
+	fmt.Println(response)
 	// client.Unregister()
 	// response, _ = client.ServicesByName("test")
 	// fmt.Println(len(response))
