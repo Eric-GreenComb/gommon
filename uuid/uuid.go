@@ -6,7 +6,7 @@ import (
 	"io"
 	"strings"
 
-	googleuuid "code.google.com/p/go-uuid/uuid"
+	googleuuid "github.com/pborman/uuid"
 
 	"github.com/banerwai/gommon/crypto"
 )
